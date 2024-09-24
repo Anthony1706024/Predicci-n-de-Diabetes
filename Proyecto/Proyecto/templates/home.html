@@ -1,0 +1,199 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diabetes Predictor</title>
+  <style>
+    /* Estilos para el botón del chatbot */
+.chatbot-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.chatbot-btn button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.chatbot-btn button:hover {
+  background-color: #0056b3;
+}
+
+/* Estilos para la ventana del chatbot */
+.chatbot-window {
+  display: none; /* Oculto por defecto */
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 300px;
+  height: 400px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  overflow: hidden;
+}
+
+.chatbot-header {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chatbot-header button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.chatbot-body {
+  padding: 15px;
+  height: calc(100% - 110px);
+  overflow-y: auto;
+}
+
+.chatbot-footer {
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  display: flex;
+  gap: 10px;
+}
+
+.chatbot-footer input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.chatbot-footer button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url("{% static 'img/fondo.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      font-family: Arial, sans-serif;
+    }
+    .card-transparent {
+      background: rgba(255, 255, 255, 0.5); /* Transparente con un poco de blanco */
+      margin-top: 50px; /* Ajusta según sea necesario */
+    }
+    .nav-link {
+      color: black; /* Color de las letras */
+    }
+    .info-card {
+      margin-top: 20px;
+    }
+  </style>
+</head >
+
+
+<body>
+  <div class="container">
+    <div class="card card-transparent">
+      <div class="card-header">
+        <ul class="nav nav-pills card-header-pills justify-content-center">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Predecir Diabetes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Reporte</a>
+          </li>
+        </ul>
+      </div>
+      <div class="card-body text-center">
+        <div class="row">
+          <!-- Card for Annual Deaths -->
+          <div class="col-md-4">
+            <div class="card info-card">
+              <div class="card-body">
+                <h5 class="card-title">Muertes Anuales</h5>
+                <p class="card-text">Cada año, aproximadamente 1.5 millones de muertes son directamente atribuibles a la diabetes. La mayoría de estas muertes ocurren antes de los 70 años.</p>
+              </div>
+            </div>
+          </div>
+          <!-- Card for Confirmed Cases -->
+          <div class="col-md-4">
+            <div class="card info-card">
+              <div class="card-body">
+                <h5 class="card-title">Casos Confirmados</h5>
+                <p class="card-text">Se estima que hay más de 422 millones de personas en el mundo diagnosticadas con diabetes, con una prevalencia creciente cada año.</p>
+              </div>
+            </div>
+          </div>
+          <!-- Card for Early Diagnosis Importance -->
+          <div class="col-md-4">
+            <div class="card info-card">
+              <div class="card-body">
+                <h5 class="card-title">Diagnóstico Temprano</h5>
+                <p class="card-text">Un diagnóstico temprano puede ayudar a prevenir complicaciones severas, reduciendo así la mortalidad y mejorando la calidad de vida de los pacientes.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="#" class="btn btn-primary mt-3">Leer más</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<!-- Botón para abrir el chatbot -->
+<div id="chatbot-btn" class="chatbot-btn">
+  <button onclick="openChat()">💬 MedicBot</button>
+</div>
+
+<!-- Ventana emergente del chatbot -->
+<div id="chatbot-window" class="chatbot-window">
+  <div class="chatbot-header">
+    <span>--MedicBot</span>
+    <button onclick="closeChat()">✖</button>
+  </div>
+  <div class="chatbot-body">
+    <p>¡Hola! ¿En qué puedo ayudarte hoy?</p>
+    <!-- Aquí iría el contenido del chatbot, puede ser un iframe o integración con un servicio de chatbot -->
+  </div>
+  <div class="chatbot-footer">
+    <input type="text" placeholder="Escribe tu mensaje..." id="chat-input">
+    <button>Enviar</button>
+  </div>
+</div>
+
+<script>
+  function openChat() {
+    document.getElementById("chatbot-window").style.display = "block";
+  }
+
+  function closeChat() {
+    document.getElementById("chatbot-window").style.display = "none";
+  }
+</script>
+
+</body>
+</html>
